@@ -66,7 +66,7 @@ export default function Screen() {
                 </View> */}
 
                 <Card>
-                    <Image source={} />
+                    {/* <Image source={} /> */}
                     <CardHeader>
                         <CardTitle>Anomaly #514</CardTitle>
                         <CardDescription>Irgendwas stimmt hier nicht</CardDescription>
