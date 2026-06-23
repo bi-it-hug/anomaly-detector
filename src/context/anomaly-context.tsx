@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { AnomalyContextProps } from "@/types/anomaly-context"
-import { sampleAnomalies } from "@/sample-data"
+import { sampleAnomalies } from "@/data/sample-data"
 import { AnomalyProps } from "@/types/anomaly"
 
 const AnomalyContext = createContext<AnomalyContextProps | undefined>(undefined)

@@ -1,13 +1,16 @@
 import { Alert, PlatformColor, TouchableOpacity, View } from "react-native"
 import { Stack, useLocalSearchParams, useRouter } from "expo-router"
 import { AnomalyProps, LOCATIONS, Location } from "@/types/anomaly"
-import { useAnomaly } from "@/context/anomaly-context"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { SymbolView } from "expo-symbols"
-import { ANOMALY_DEFAULTS } from "@/anomaly-defaults"
+import { ANOMALY_DEFAULTS } from "@/data/anomaly-defaults"
 import { LabelWrapper } from "@/components/label-wrapper"
+import { useAnomaly } from "@/context/anomaly-context"
+import * as ImagePicker from "expo-image-picker"
+import { Button } from "@/components/ui/button"
+import { Image, ImageProps } from "expo-image"
 import { Input } from "@/components/ui/input"
+import { Text } from "@/components/ui/text"
+import { SymbolView } from "expo-symbols"
+import { useState } from "react"
 import {
     Select,
     SelectTrigger,
@@ -17,12 +20,9 @@ import {
     SelectLabel,
     SelectItem,
 } from "@/components/ui/select"
-import { Text } from "@/components/ui/text"
-import { Image, ImageProps } from "expo-image"
-import * as ImagePicker from "expo-image-picker"
 
 export default function CreateAnomaly() {
-    const { anomalies, addAnomaly } = useAnomaly()
+    const { anomalies, addAnomaly, removeAnomaly } = useAnomaly()
     const router = useRouter()
 
     const { id } = useLocalSearchParams<{ id?: string }>()
@@ -32,8 +32,6 @@ export default function CreateAnomaly() {
     const [imageSource, setImageSource] = useState<ImageProps["source"]>(
         ANOMALY_DEFAULTS.image.source
     )
-
-    // const emptyAnomaly = anomalies.find((anomaly) => anomaly.id === Number(id))
 
     const isEditing =
         title !== ANOMALY_DEFAULTS.title ||
@@ -51,6 +49,13 @@ export default function CreateAnomaly() {
         setDescription(ANOMALY_DEFAULTS.description)
         setLocation(ANOMALY_DEFAULTS.location)
         setImageSource(ANOMALY_DEFAULTS.image.source)
+    }
+
+    function handleCancel() {
+        const newAnomaly = anomalies.find((anomaly) => anomaly.id === Number(id))
+        if (!newAnomaly) return
+        removeAnomaly(newAnomaly.id)
+        router.back()
     }
 
     async function pickImage() {
@@ -87,7 +92,7 @@ export default function CreateAnomaly() {
                                 className="ios:size-9 rounded-full web:mx-4"
                                 size="icon"
                                 variant="ghost"
-                                onPress={() => router.back()}>
+                                onPress={() => handleCancel()}>
                                 <SymbolView name="xmark" />
                             </Button>
                         ),
@@ -108,22 +113,29 @@ export default function CreateAnomaly() {
                     />
                 ) : (
                     <View
-                        className="flex h-40 w-full flex-row items-center justify-center gap-2 rounded-lg bg-muted-foreground"
-                        style={{
-                            height: 200,
-                        }}>
-                        <TouchableOpacity className="h-full flex-1 items-center justify-center rounded-lg bg-muted">
-                            <SymbolView name="photo" size={50} tintColor={PlatformColor("label")} />
-                            <Text>Library</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity className="h-full flex-1 items-center justify-center rounded-lg bg-muted">
+                        className="flex w-full flex-col items-center justify-center gap-2 rounded-lg bg-muted"
+                        style={{ height: 200 }}>
+                        <View className="flex items-center justify-center rounded-xl bg-foreground p-2">
                             <SymbolView
-                                name="camera"
-                                size={50}
-                                tintColor={PlatformColor("label")}
+                                name="photo"
+                                tintColor={PlatformColor("systemBackground")}
                             />
-                            <Text>Camera</Text>
-                        </TouchableOpacity>
+                        </View>
+                        <Text variant="default">No Image yet</Text>
+                        <View className="flex flex-row gap-3">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="pl-1.5"
+                                onPress={pickImage}>
+                                <SymbolView name="photo" tintColor={PlatformColor("label")} />
+                                <Text>Library</Text>
+                            </Button>
+                            <Button variant="outline" size="sm" className="pl-1.5">
+                                <SymbolView name="camera" tintColor={PlatformColor("label")} />
+                                <Text>Camera</Text>
+                            </Button>
+                        </View>
                     </View>
                 )}
 

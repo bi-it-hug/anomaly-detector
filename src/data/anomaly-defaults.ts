@@ -1,4 +1,4 @@
-import { AnomalyProps } from "./types/anomaly"
+import { AnomalyProps } from "@/types/anomaly"
 
 export const ANOMALY_DEFAULTS: AnomalyProps = {
     id: 0,

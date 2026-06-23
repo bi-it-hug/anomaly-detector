@@ -1,48 +1,50 @@
-import DestructiveConfirmationDialog from "@/components/destructive-dialog"
+import { DestructiveConfirmationDialog } from "@/components/destructive-dialog"
+import { Alert, PlatformColor, TouchableOpacity, View } from "react-native"
 import { Stack, useLocalSearchParams, useRouter } from "expo-router"
-import { useAnomaly } from "@/context/anomaly-context"
 import { AnomalyProps, LOCATIONS, Location } from "@/types/anomaly"
-import { useState } from "react"
-import { View, Alert } from "react-native"
+import { ANOMALY_DEFAULTS } from "@/data/anomaly-defaults"
+import { LabelWrapper } from "@/components/label-wrapper"
+import { useAnomaly } from "@/context/anomaly-context"
+import * as ImagePicker from "expo-image-picker"
+import { Button } from "@/components/ui/button"
 import { Image, ImageProps } from "expo-image"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { Text } from "@/components/ui/text"
 import { SymbolView } from "expo-symbols"
+import { useState } from "react"
 import {
     Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
+    SelectContent,
+    SelectGroup,
+    SelectLabel,
+    SelectItem,
 } from "@/components/ui/select"
-import { Text } from "@/components/ui/text"
-import * as ImagePicker from "expo-image-picker"
-import { LabelWrapper } from "@/components/label-wrapper"
-import { CameraType, useCameraPermissions } from "expo-camera"
-import { ANOMALY_DEFAULTS } from "@/anomaly-defaults"
+// import { CameraType, useCameraPermissions } from "expo-camera"
 
 export default function EditAnomaly() {
     const { anomalies, updateAnomaly, removeAnomaly } = useAnomaly()
     const { id } = useLocalSearchParams<{ id: string }>()
-
-    const anomaly = anomalies.find((v) => v.id === Number(id))
-    if (!anomaly) return null
-
-    const originalAnomaly = anomaly.id
-
     const router = useRouter()
-    const [title, setTitle] = useState(anomaly?.title)
-    const [description, setDescription] = useState(anomaly.description)
-    const [location, setLocation] = useState<Location>(anomaly.location)
-    const [imageSource, setImageSource] = useState<ImageProps["source"]>(anomaly.image.source)
+
+    const currentAnomaly = anomalies.find((v) => v.id === Number(id))
+    if (!currentAnomaly) return null
+
+    const originalAnomaly = currentAnomaly.id
+
+    const [title, setTitle] = useState(currentAnomaly?.title)
+    const [description, setDescription] = useState(currentAnomaly.description)
+    const [location, setLocation] = useState<Location>(currentAnomaly.location)
+    const [imageSource, setImageSource] = useState<ImageProps["source"]>(
+        currentAnomaly.image.source
+    )
 
     const isEditing =
-        anomaly.title !== title ||
-        anomaly.description !== description ||
-        anomaly.location !== location ||
-        anomaly.image.source !== imageSource
+        currentAnomaly.title !== title ||
+        currentAnomaly.description !== description ||
+        currentAnomaly.location !== location ||
+        currentAnomaly.image.source !== imageSource
 
     function handleSave(updatedAnomaly: AnomalyProps) {
         updateAnomaly(originalAnomaly, updatedAnomaly)
@@ -55,11 +57,11 @@ export default function EditAnomaly() {
     }
 
     function handleReset() {
-        if (!anomaly) return null
-        setTitle(anomaly.title)
-        setDescription(anomaly.description)
-        setLocation(anomaly.location)
-        setImageSource(anomaly.image.source ?? "")
+        if (!currentAnomaly) return null
+        setTitle(currentAnomaly.title)
+        setDescription(currentAnomaly.description)
+        setLocation(currentAnomaly.location)
+        setImageSource(currentAnomaly.image.source ?? "")
     }
 
     async function pickImage() {
@@ -86,11 +88,11 @@ export default function EditAnomaly() {
         <>
             <Stack.Screen
                 options={{
-                    title: `${anomaly.title}`,
+                    title: `${currentAnomaly.title}`,
                     headerLeft: () => (
                         <DestructiveConfirmationDialog
                             data={{
-                                anomaly: anomaly,
+                                anomaly: currentAnomaly,
                                 onSave: handleSave,
                                 onDelete: handleDelete,
                             }}
@@ -113,11 +115,11 @@ export default function EditAnomaly() {
                                     variant="ghost"
                                     onPress={() =>
                                         handleSave({
-                                            ...anomaly,
+                                            ...currentAnomaly,
                                             title,
                                             description,
                                             location,
-                                            image: { ...anomaly.image, source: imageSource },
+                                            image: { ...currentAnomaly.image, source: imageSource },
                                         })
                                     }>
                                     <SymbolView name="checkmark" />
@@ -140,7 +142,7 @@ export default function EditAnomaly() {
                 </Button>
                 <Image
                     source={imageSource}
-                    alt={anomaly.image.alt}
+                    alt={currentAnomaly.image.alt}
                     style={{ width: "100%", height: 200, borderRadius: 10 }}
                     contentFit="cover"
                 />

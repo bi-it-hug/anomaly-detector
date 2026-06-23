@@ -19,7 +19,7 @@ import { useState } from "react"
 import { PlatformColor } from "react-native"
 import { useAnomaly } from "@/context/anomaly-context"
 
-export default function DestructiveConfirmationDialog({ data }: { data: EditAnomalyProps }) {
+export function DestructiveConfirmationDialog({ data }: { data: EditAnomalyProps }) {
     const [open, setOpen] = useState(false)
     const { anomalies } = useAnomaly()
 
