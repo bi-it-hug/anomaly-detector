@@ -5,7 +5,7 @@ export default function AnomalyLayout() {
     return (
         <Stack
             screenOptions={{
-                headerRight: () => <ThemeToggle />,
+                headerLeft: () => <ThemeToggle />,
             }}
         />
     )

@@ -1,8 +1,8 @@
 import { AnomalyCard } from "@/components/anomaly-card"
-import { Text } from "@/components/ui/text"
 import { useAnomaly } from "@/context/anomaly-context"
-import { Stack, useRouter } from "expo-router"
-import { ActivityIndicator, FlatList, View } from "react-native"
+import { useSensors } from "@/context/sensor-context"
+import { Stack } from "expo-router"
+import { ActivityIndicator, FlatList, View, Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 export default function AnomalyScreen() {
@@ -11,21 +11,27 @@ export default function AnomalyScreen() {
     return (
         <>
             <Stack.Screen options={{ title: "Anomalies", headerTransparent: true }} />
-            <SafeAreaView className="size-full items-center justify-center p-4">
+            <View className="m-0 size-full items-center justify-center">
                 {isLoading ? (
                     <ActivityIndicator />
                 ) : (
                     <FlatList
-                        style={{ flexGrow: 0 }}
+                        style={{
+                            flex: 1,
+                            width: "100%",
+                            display: "flex",
+                        }}
                         numColumns={4}
-                        columnWrapperClassName="gap-4 w-full"
+                        columnWrapperClassName="gap-4 w-full flex-wrap py-4"
                         contentContainerClassName="gap-4 w-full"
+                        // contentContainerStyle={{ justifyContent: "center" }}
+                        columnWrapperStyle={{ justifyContent: "center" }}
                         data={anomalies}
                         keyExtractor={(anomaly) => anomaly.id.toString()}
                         renderItem={({ item }) => <AnomalyCard data={item} />}
                     />
                 )}
-            </SafeAreaView>
+            </View>
         </>
     )
 }

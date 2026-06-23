@@ -1,84 +1,88 @@
 import { AnomalyProps } from "@/types/anomaly"
 
+const testImage =
+    "https://images.unsplash.com/photo-1765445773906-64a36ecfd20e?q=80&w=1969&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+
 const sampleAnomalies: AnomalyProps[] = [
     {
         id: 1,
-        title: "Nein",
-        description: "Furz",
-        location: "Nirgendwo",
+        title: "Unbekannte Lichtquelle",
+        description: "Mehrere Personen meldeten ein pulsierendes Licht ohne erkennbare Ursache.",
+        location: "Irgendwo",
         image: {
-            src: require("@/assets/images/anomaly.jpg"),
-            alt: "Schiss",
+            source: testImage,
+            alt: "Lichtquelle",
         },
     },
     {
         id: 2,
-        title: "Fliegender Käseschiss",
-        description: "Ein Käseschiss wurde dabei beobachtet, wie er durch die Luft segelte.",
-        location: "Kühlschrankdimension",
+        title: "Temperaturabweichung",
+        description: "Die Umgebungstemperatur fiel innerhalb von drei Minuten um 18°C.",
+        location: "Keller",
         image: {
-            src: require("@/assets/images/anomaly.jpg"),
-            alt: "Käseschiss",
+            source: testImage,
+            alt: "Temperaturabweichung",
         },
     },
     {
         id: 3,
-        title: "Pferdeschiss-Monolith",
-        description: "Ein mysteriöser Monolith aus reinem Pferdeschiss erschien über Nacht.",
-        location: "Wald von Schissingen",
+        title: "Signalstörung",
+        description: "Kommunikationsgeräte verloren gleichzeitig die Verbindung.",
+        location: "Lagerhalle",
         image: {
-            src: require("@/assets/images/anomaly.jpg"),
-            alt: "Pferdeschiss",
+            source: testImage,
+            alt: "Signalstörung",
         },
     },
     {
         id: 4,
-        title: "Eierschiss-Resonanz",
-        description: "Mehrere Eierschiss-Wellen wurden von Sensoren aufgezeichnet.",
-        location: "Labor 7",
+        title: "Bewegung ohne Quelle",
+        description: "Sensoren registrierten Bewegung in einem abgesperrten Bereich.",
+        location: "Irgendwo",
         image: {
-            src: require("@/assets/images/anomaly.jpg"),
-            alt: "Eierschiss",
+            source: testImage,
+            alt: "Bewegung",
         },
     },
     {
         id: 5,
-        title: "Der große Wurstschiss",
-        description: "Ein ungewöhnlich langer Wurstschiss blockiert den Hauptkorridor.",
-        location: "Sektor B",
+        title: "Zeitliche Inkonsistenz",
+        description: "Mehrere Systeme zeigten unterschiedliche Zeitstempel für dasselbe Ereignis.",
+        location: "Keller",
         image: {
-            src: require("@/assets/images/anomaly.jpg"),
-            alt: "Wurstschiss",
+            source: testImage,
+            alt: "Zeitliche Inkonsistenz",
         },
     },
     {
         id: 6,
-        title: "Conspumpipotter",
-        description: "Ein unbekanntes Wesen murmelt nur 'Conspumpipotter'.",
-        location: "Serverraum",
+        title: "Akustisches Phänomen",
+        description:
+            "Ein periodisches Geräusch wurde aufgezeichnet, konnte jedoch nicht lokalisiert werden.",
+        location: "Lagerhalle",
         image: {
-            src: require("@/assets/images/anomaly.jpg"),
-            alt: "Conspumpipotter",
+            source: testImage,
+            alt: "Akustisches Phänomen",
         },
     },
     {
         id: 7,
-        title: "Schwebende Tastatur",
-        description: "Eine Tastatur ignoriert sämtliche Gesetze der Physik.",
-        location: "Büro 404",
+        title: "Objektverschiebung",
+        description: "Ein Inventargegenstand wurde außerhalb seines gesicherten Bereichs gefunden.",
+        location: "Irgendwo",
         image: {
-            src: require("@/assets/images/anomaly.jpg"),
-            alt: "Schwebende Tastatur",
+            source: testImage,
+            alt: "Objektverschiebung",
         },
     },
     {
         id: 8,
-        title: "Bytefresser",
-        description: "Dateien verschwinden und werden durch Schiss ersetzt.",
-        location: "Datenzentrum",
+        title: "Anomale Netzwerkaktivität",
+        description: "Unbekannte Datenpakete wurden über ein isoliertes Netzwerk übertragen.",
+        location: "Keller",
         image: {
-            src: require("@/assets/images/anomaly.jpg"),
-            alt: "Bytefresser",
+            source: testImage,
+            alt: "Netzwerkaktivität",
         },
     },
 ]

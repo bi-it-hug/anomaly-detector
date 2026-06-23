@@ -11,21 +11,29 @@ export function AnomalyCard({ data }: { data: AnomalyProps }) {
     const router = useRouter()
 
     return (
-        <TouchableOpacity onPress={() => router.push(`/anomaly?id=${encodeURIComponent(data.id)}`)}>
-            <Card className="w-80 overflow-hidden pt-0">
-                <Image source={data.image.src} className="aspect-video w-full" contentFit="cover" />
-                <CardHeader className="flex-row">
-                    <View className="flex h-fit flex-1 flex-col gap-1.5">
-                        <CardTitle>
-                            {data.title} #{data.id}
-                        </CardTitle>
+        <TouchableOpacity
+            onPress={() => router.push(`/edit-anomaly?id=${encodeURIComponent(data.id)}`)}>
+            <Card className="w-80 gap-4 overflow-hidden rounded-lg pb-4 pt-0">
+                <View className="aspect-video w-full">
+                    <Image
+                        source={data.image.source}
+                        alt={data.image.alt}
+                        style={{ width: "100%", height: "100%" }}
+                        contentFit="cover"
+                    />
+                </View>
+                <CardHeader className="flex-row px-4">
+                    <View className="flex w-full flex-col gap-1">
+                        <View className="flex h-fit flex-row items-center justify-between gap-1.5">
+                            <CardTitle className="text-lg leading-none">
+                                {data.title} #{data.id}
+                            </CardTitle>
+                            <Badge variant="outline" className="pl-1">
+                                <MapPin className="text-primary" size={10} />
+                                <Text className="text-primary">{data.location}</Text>
+                            </Badge>
+                        </View>
                         <CardDescription className="truncate">{data.description}</CardDescription>
-                    </View>
-                    <View>
-                        <Badge variant="default" className="pl-1">
-                            <MapPin className="text-primary-foreground" />
-                            <Text>{data.location}</Text>
-                        </Badge>
                     </View>
                 </CardHeader>
             </Card>

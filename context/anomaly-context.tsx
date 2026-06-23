@@ -29,25 +29,10 @@ function AnomalyProvider({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
-        async function loadAnomalies() {
-            try {
-                const storedAnomalies = await AsyncStorage.getItem("anomalies")
-                const anomalies: AnomalyProps[] = JSON.parse(storedAnomalies ?? "[]")
-                console.info("Successfully loaded Anomalies!", anomalies)
-                setAnomalies(anomalies)
-            } catch (error) {
-                console.error(`Error while loading Anomalies: ${error}`)
-            } finally {
-                setIsLoading(false)
-            }
-        }
-        loadAnomalies()
-    }, [])
-
-    useEffect(() => {
         async function saveAnomalies() {
             try {
                 await AsyncStorage.setItem("anomalies", JSON.stringify(anomalies))
+
                 console.info("Successfully saved Anomalies")
             } catch (error) {
                 console.error(`Error while saving Anomalies: ${error}`)
@@ -57,6 +42,25 @@ function AnomalyProvider({ children }: { children: ReactNode }) {
         }
         saveAnomalies()
     }, [anomalies])
+
+    useEffect(() => {
+        async function loadAnomalies() {
+            try {
+                const storedAnomalies = await AsyncStorage.getItem("anomalies")
+                const parsed: AnomalyProps[] = JSON.parse(storedAnomalies ?? "[]")
+                const anomalies = parsed.length > 0 ? parsed : sampleAnomalies
+
+                setAnomalies(anomalies)
+
+                console.info("Successfully loaded Anomalies!", anomalies)
+            } catch (error) {
+                console.error(`Error while loading Anomalies: ${error}`)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+        loadAnomalies()
+    }, [])
 
     return (
         <AnomalyContext.Provider
